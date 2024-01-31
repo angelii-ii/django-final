@@ -1,0 +1,26 @@
+{% extends 'homepage/base.html' %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+    <div class="mt-6 px-4 py-10 bg-slate-400 rounded-lg">
+        <h2 class="text-3xl mb-12 font-semibold">Your Items</h2>
+        <div class="grid grid-cols-4 gap-2">
+            {% for i in items %}
+                <div style="max-width: 20rem" class="bg-white hover:bg-purple-200 rounded-xl">
+                    <a href="{% url 'item:detail' i.id %}">
+                        <div class="items-center rounded-t-xl">
+                            <img class="mx-auto" style="max-height: 250px;object-fit: contain" src="{{ i.image.url }}" alt="">
+                        </div>
+                        <div class="p-6 rounded-b-xl">
+                            <h3 class="text-2xl font-bold">{{ i.name }}</h3>
+                            <p class="text-md text-blue-600">{{ i.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

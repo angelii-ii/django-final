@@ -1,0 +1,23 @@
+{% extends 'homepage/base.html' %}
+
+{% block title %}Private Message{% endblock %}
+
+{% block content %}
+    <h1>Private Message</h1>
+    <div class="space-y-6 ">
+        {% for message in conversation.message.all %}
+            <div class="p-6 flex rounded-lg {% if message.created_by == request.user %} bg-green-200 {% else %} bg-cyan-100 {% endif %}">
+                <div>
+                    <p class="mb-4"><strong>{{ message.created_by.username }}</strong> | sent at: {{ message.created_at }}</p>
+                    <p>{{ message.content }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <form class="mt-5" action="." method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+        <button class="mt-6 py-4 px-8 text-lg bg-purple-400 hover:bg-purple-700 rounded-lg text-white" type="submit">Send</button>
+    </form>
+{% endblock %}

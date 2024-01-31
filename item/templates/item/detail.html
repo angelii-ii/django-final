@@ -1,0 +1,54 @@
+{% extends 'homepage/base.html' %}
+
+{% block title %}
+    {{ item.name }} details
+{% endblock %}
+
+{% block content %}
+    <div class="grid grid-cols-5 gap-6">
+        <div class="col-span-2 p-6 bg-cyan-200 rounded-2xl">
+            <h1 class="mb-6 text-3xl font-bold">{{ item.name }}</h1>
+            <p class="text-indigo-900 mb-6"><strong>Seller:</strong> {{ item.created_by.username }}</p>
+            <p class="text-indigo-900 mb-6"><strong>Price:</strong> {{ item.price }}</p>
+            <p class="text-indigo-900 mb-6"><strong>Description:</strong></p>
+            <div class="bg-cyan-100 p-8 rounded-lg">
+            {% if item.description %}
+                <p class="text-green-800">{{ item.description }}</p>
+                {% else %}
+                    <p class="text-blue-500">the seller didn't provide a description</p>
+            {% endif %}
+            </div>
+
+            {% if request.user == item.created_by %}
+                <div class="mt-6 p-6 bg-emerald-300 rounded-lg">
+                    <p>your item</p>
+                    <a class="inline-block mt-4 px-6 py-3 text-lg font-semibold bg-orange-300 text-white rounded-lg" href="{% url 'item:edit' item.id %}">Edit</a>
+                    <a class="inline-block mt-4 px-6 py-3 text-lg font-semibold bg-rose-500 text-white rounded-lg" href="{% url 'item:delete' item.id %}">Delete</a>
+                </div>
+                {% else %}
+                <a class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-lime-500 text-white hover:bg-lime-600 rounded-lg mx-auto" href="{% url 'message:new' item.id %}">Contact Seller</a>
+            {% endif %}
+        </div>
+        <div class="col-span-3">
+            <img style="max-height: 550px" src="{{ item.image.url }}" alt="{{ item.name }}" class="rounded-xl mx-auto">
+        </div>
+    </div>
+    <div class="mt-6 px-4 py-10 bg-zinc-200 rounded-lg">
+        <h2 class="text-3xl mb-12 font-semibold">Related Items</h2>
+        <div class="grid grid-cols-4 gap-2">
+            {% for item in related_items %}
+                <div style="max-width: 18rem" class="bg-white hover:bg-pink-200 rounded-xl">
+                    <a href="{% url 'item:detail' item.id %}">
+                        <div class="items-center rounded-t-xl">
+                            <img class="rounded-t-xl" src="{{ item.image.url }}" alt="">
+                        </div>
+                        <div class="p-6 rounded-b-xl">
+                            <h3 class="text-2xl font-bold">{{ item.name }}</h3>
+                            <p class="text-md text-blue-400">{{ item.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

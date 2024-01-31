@@ -1,0 +1,42 @@
+{% extends 'homepage/base.html' %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block content %}
+    <div class="mt-6 px-4 py-10 bg-slate-400 rounded-lg">
+        <h2 class="text-3xl mb-12 font-semibold">Newest Items</h2>
+        <div class="grid grid-cols-4 gap-2">
+            {% for i in items %}
+                <div style="max-width: 20rem" class="bg-white hover:bg-green-300 rounded-xl mb-6">
+                    <a href="{% url 'item:detail' i.id %}">
+                        <div class="items-center rounded-t-xl" style="overflow: hidden">
+                            <img class="mx-auto" style="max-height: 250px;object-fit: contain" src="{{ i.image.url }}" alt="">
+                        </div>
+                        <div class="p-6 rounded-b-xl">
+                            <h3 class="text-2xl font-bold">{{ i.name }}</h3>
+                            <p class="text-md text-blue-600">{{ i.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="mt-6 px-4 py-10 bg-slate-400 rounded-lg">
+        <h2 class="text-3xl mb-12 font-semibold">Categories</h2>
+        <div style="max-height: 350px" class="grid grid-cols-4 gap-3 overflow-y-scroll">
+            {% for category in categories %}
+                <div style="min-width: 200px">
+                    <a style="margin: 5px 10px" href="{% url 'item:browse' %}?query={{ query }}&category={{ category.id }}">
+                        <div class="p-6 rounded-xl bg-white hover:bg-cyan-300">
+                            <p class="text-2xl font-bold">{{ category.name }}</p>
+                            <p class="text-lg text-blue-600">{{ category.items.count }} items</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

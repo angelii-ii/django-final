@@ -1,0 +1,40 @@
+{% extends 'homepage/base.html' %}
+
+{% block title %}Items{% endblock %}
+
+{% block content %}
+    <div class="grid px-8 py-4 grid-cols-4 gap-5 bg-slate-400 rounded-xl">
+        <div class="col-span-1">
+            <p class="font-semibold mb-2 text-xl">Categories</p>
+            <ul>
+                {% for category in categories %}
+                    <li class="p-2 rounded-lg hover:text-cyan-300 {% if category.id == category_id %} bg-green-300 {% endif %}">
+                        <a href="{% url 'item:browse' %}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr class="my-6">
+            <p class="font-semibold">Clear Filters</p>
+            <ul>
+                <li><a href="{% url 'item:browse' %}" class="mt-2 py-4 px-8 inline-block bg-rose-500 text-lg rounded-lg text-gray-100 font-semibold">Clear</a></li>
+            </ul>
+        </div>
+        <div class="col-span-3">
+            <div class="grid grid-cols-4 gap-2">
+            {% for i in items %}
+                <div style="max-width: 20rem" class="bg-white hover:bg-cyan-200 rounded-xl">
+                    <a href="{% url 'item:detail' i.id %}">
+                        <div class="items-center rounded-t-xl">
+                            <img class="mx-auto" style="max-height: 250px;object-fit: contain" src="{{ i.image.url }}" alt="">
+                        </div>
+                        <div class="p-6 rounded-b-xl">
+                            <h3 class="text-2xl font-bold">{{ i.name }}</h3>
+                            <p class="text-md text-blue-600">{{ i.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+{% endblock %}
